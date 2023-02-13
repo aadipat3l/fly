@@ -1,0 +1,68 @@
+from tkinter import *
+
+def book_flight():
+    departure_city = departure_var.get()
+    arrival_city = arrival_var.get()
+    departure_date = departure_date_var.get()
+    return_date = return_date_var.get()
+    print("Booking flight from " + departure_city + " to " + arrival_city + " on " + departure_date + " and returning on " + return_date)
+
+    # Create new window with flight options
+    flight_options_window = Toplevel(root)
+    flight_options_window.title("Available Flights")
+
+    # Dummy data for flight options
+    flight_options = ["Flight 1: " + departure_city + " to " + arrival_city + " at 8:00am", 
+                      "Flight 2: " + departure_city + " to " + arrival_city + " at 10:00am", 
+                      "Flight 3: " + departure_city + " to " + arrival_city + " at 12:00pm"]
+
+    # Display flight options in a listbox
+    global flight_options_list
+    flight_options_list = Listbox(flight_options_window)
+    for option in flight_options:
+        flight_options_list.insert(END, option)
+    flight_options_list.pack()
+
+    # "Select" button to choose a flight
+    select_button = Button(flight_options_window, text="Select", command=select_flight)
+    select_button.pack()
+
+def select_flight():
+    selected_flight = flight_options_list.get(ACTIVE)
+    print("Selected flight: " + selected_flight)
+
+root = Tk()
+root.title("Airline Booking")
+
+# Departure City
+departure_var = StringVar(value="New York")
+departure_label = Label(root, text="Departure City:")
+departure_label.pack()
+departure_dropdown = OptionMenu(root, departure_var, "New York", "Los Angeles", "Chicago", "Houston", "Miami")
+departure_dropdown.pack()
+
+# Arrival City
+arrival_var = StringVar(value="Chicago")
+arrival_label = Label(root, text="Arrival City:")
+arrival_label.pack()
+arrival_dropdown = OptionMenu(root, arrival_var, "New York", "Los Angeles", "Chicago", "Houston", "Miami")
+arrival_dropdown.pack()
+
+# Departure Date
+departure_date_var = StringVar(value="01/01/2022")
+departure_date_label = Label(root, text="Departure Date:")
+departure_date_label.pack()
+departure_date_entry = Entry(root, textvariable=departure_date_var)
+departure_date_entry.pack()
+
+#return date 
+return_date_var = StringVar(value="01/01/2022")
+return_date_label = Label(root, text="Return Date:")
+return_date_label.pack()
+return_date_entry = Entry(root, textvariable=return_date_var)
+return_date_entry.pack()
+
+book_button = Button(root, text="Book Flight", command=book_flight)
+book_button.pack()
+
+root.mainloop()
